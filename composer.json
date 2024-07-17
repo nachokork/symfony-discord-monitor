@@ -22,10 +22,7 @@
         }
     },
     "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "5.0.*"
-        }
+        "symfony-bundle": "App\\ErrorBundle\\AppErrorBundle"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

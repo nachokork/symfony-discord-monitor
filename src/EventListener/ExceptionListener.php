@@ -4,7 +4,6 @@ namespace App\ErrorBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use GuzzleHttp\Client;
 
 class ExceptionListener
@@ -12,7 +11,7 @@ class ExceptionListener
     private $client;
     private $webhookUrl;
 
-    public function __construct(HttpClientInterface $client, string $webhookUrl)
+    public function __construct(Client $client, string $webhookUrl)
     {
         $this->client = $client;
         $this->webhookUrl = $webhookUrl;
@@ -27,32 +26,24 @@ class ExceptionListener
             $statusCode = $exception->getStatusCode();
         }
 
+        $message = [
+            'content' => sprintf(
+                "Project: MyGolf\nError: %s\nURL: %s",
+                $exception->getMessage(),
+                'https://example.com' // Reemplazar URL
+            ),
+        ];
+
         if ($statusCode === 500) {
-            $message = [
-                'content' => sprintf(
-                    "Project: MyGolf\nError: %s\nURL: %s",
-                    'Too many 500s',
-                    'https://google.es'
-                ),
-                'embeds' => [
-                    [
-                        'title' => 'Error 500',
-                        'description' => 'Se ha producido un error 500 en el servidor.',
-                        'timestamp' => (new \DateTime())->format(\DateTime::ATOM),
-                        'image' => [
-                            'url' => 'https://uxwing.com/wp-content/themes/uxwing/download/checkmark-cross/cancel-icon.png'
-                        ]
+            $message['embeds'] = [
+                [
+                    'title' => 'Error 500',
+                    'description' => 'Se ha producido un error 500 en el servidor.',
+                    'timestamp' => (new \DateTime())->format(\DateTime::ATOM),
+                    'image' => [
+                        'url' => 'https://uxwing.com/wp-content/themes/uxwing/download/checkmark-cross/cancel-icon.png'
                     ]
                 ]
-            ];
-        } else {
-            $message = [
-                'content' => sprintf(
-                    "Project: MyGolf\nError: %s\nCode: %s\nURL: %s",
-                    $exception->getMessage(),
-                    $exception->getCode(),
-                    'https://google.es'
-                ),
             ];
         }
 

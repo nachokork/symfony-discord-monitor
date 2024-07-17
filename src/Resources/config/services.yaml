@@ -1,8 +1,6 @@
 services:
-  App\ErrorBundle\Service\ExceptionListener:
-    arguments:
-      $client: '@http_client' # Ajusta esto según tu cliente HTTP preferido
-      $webhookUrl: '%app_error.webhook_url%'
+  App\ErrorBundle\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-
+    arguments:
+      $webhookUrl: '%env(DISCORD_WEBHOOK_URL)%'

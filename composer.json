@@ -1,5 +1,5 @@
 {
-    "name": "symfony-discord/monitor",
+    "name": "testing/monitordc",
     "description": "This package is intended to monitor our symfony applications using Discord! The package will help us detect errors and related messages in your configured channel!",
     "type": "symfony-bundle",
     "require": {

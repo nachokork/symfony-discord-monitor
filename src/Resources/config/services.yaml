@@ -3,6 +3,8 @@ services:
     arguments:
       $client: '@guzzle.client'
       $webhookUrl: '%env(WEBHOOK_URL)%'
+      $name: '%env(APP_NAME)%'
+      $url: '%env(ERROR_URL)%'
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 

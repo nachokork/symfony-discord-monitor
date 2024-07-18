@@ -10,11 +10,15 @@ class ExceptionListener
 {
     private $client;
     private $webhookUrl;
+    private $name;
+    private $url;
 
-    public function __construct(Client $client, string $webhookUrl)
+    public function __construct(Client $client, string $webhookUrl, string $name, string $url)
     {
         $this->client = $client;
         $this->webhookUrl = $webhookUrl;
+        $this->name = $name;
+        $this->url = $url;
     }
 
     public function onKernelException(ExceptionEvent $event)
@@ -28,9 +32,10 @@ class ExceptionListener
 
         $message = [
             'content' => sprintf(
-                "Project: MyGolf\nError: %s\nURL: %s",
+                "Project: %s\nError: %s\nURL: %s",
+                $this->name,
                 $exception->getMessage(),
-                'https://example.com' // Reemplazar URL
+                $this->url
             ),
         ];
 

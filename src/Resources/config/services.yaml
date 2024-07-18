@@ -1,6 +1,11 @@
 services:
   App\ErrorBundle\EventListener\ExceptionListener:
+    arguments:
+      $client: '@guzzle.client'
+      $webhookUrl: '%env(WEBHOOK_URL)%'
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-    arguments:
-      $webhookUrl: '%env(DISCORD_WEBHOOK_URL)%'
+
+  guzzle.client:
+    class: GuzzleHttp\Client
+    arguments: []

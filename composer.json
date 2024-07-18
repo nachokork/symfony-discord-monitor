@@ -3,7 +3,7 @@
     "description": "This package is intended to monitor our symfony applications using Discord! The package will help us detect errors and related messages in your configured channel!",
     "type": "symfony-bundle",
     "require": {
-        "php": "^7.4 || ^8.2",
+        "php": ">= 8.0",
         "symfony/http-kernel": "^5.0 || ^6.0",
         "symfony/dependency-injection": "^5.0 || ^6.0",
         "symfony/config": "^5.0 || ^6.0",
